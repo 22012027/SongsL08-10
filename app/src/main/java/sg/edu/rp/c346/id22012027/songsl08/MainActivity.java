@@ -2,18 +2,15 @@ package sg.edu.rp.c346.id22012027.songsl08;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     TextView textViewSongTitle;
@@ -23,18 +20,8 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewYear;
     EditText editTextYear;
     RadioGroup radioGroup;
-    RadioButton radioButton1;
-    RadioButton radioButton2;
-    RadioButton radioButton3;
-    RadioButton radioButton4;
-    RadioButton radioButton5;
     Button buttonInsert;
     Button buttonShowList;
-    TextView textViewResults;
-    ListView listView;
-    ArrayAdapter<String> aa;
-    ArrayList<Songs> al;
-    boolean asc= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,34 +35,45 @@ public class MainActivity extends AppCompatActivity {
         textViewYear= findViewById(R.id.textViewYear);
         editTextYear= findViewById(R.id.editTextYear);
         radioGroup= findViewById(R.id.radioGroup);
-        radioButton1= findViewById(R.id.radioButton1);
-        radioButton2= findViewById(R.id.radioButton2);
-        radioButton3= findViewById(R.id.radioButton3);
-        radioButton4= findViewById(R.id.radioButton4);
-        radioButton5= findViewById(R.id.radioButton5);
-        buttonInsert= findViewById(R.id.buttonInsert);
-        buttonShowList= findViewById(R.id.buttonShowList);
-        textViewResults=findViewById(R.id.textViewResults);
-        listView= findViewById(R.id.listView);
+        buttonInsert= findViewById(R.id.buttonUpdate);
+        buttonShowList= findViewById(R.id.buttonDelete);
 
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                int star;
+
+                if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton1) {
+                    star = 1;
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton2) {
+                    star = 2;
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton3) {
+                    star = 3;
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton4) {
+                    star = 4;
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton5) {
+                    star = 5;
+                } else {
+                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 DBHelper db= new DBHelper(MainActivity.this);
-                db.insertSong(editTextSongTitle.getText().toString(), editTextSinger.getText().toString(), Integer.parseInt(editTextYear.getText().toString());
-                db.close();
+
+                if (editTextSongTitle.getText().toString().trim().length() != 0 && editTextSinger.getText().toString().trim().length() != 0 && editTextYear.getText().toString().trim().length() != 0 && radioGroup.getCheckedRadioButtonId() != -1) {
+                    db.insertSong(editTextSongTitle.getText().toString(), editTextSinger.getText().toString(), Integer.parseInt(editTextYear.getText().toString()), star);
+                } else {
+                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         buttonShowList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBHelper db2 = new DBHelper(MainActivity.this);
-                al = db2.getSongs();
-                db2.close();
-                asc = !asc;
-                aa = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, al);
-                listView.setAdapter(aa);
+                Intent intent= new Intent (MainActivity.this, SongList.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewBoyGroupSongs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/boy_group_songs"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton5Stars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/show_all_songs"
+        android:textOn="@string/show_all_songs_with_5_stars" />
+
+    <ListView
+        android:id="@+id/listViewResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
+</LinearLayout>

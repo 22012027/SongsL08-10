@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewBoyGroupSongs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/boy_group_songs"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <TextView
+        android:id="@+id/textViewSongTitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textview" />
+
+    <TextView
+        android:id="@+id/textViewSinger2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textview" />
+
+    <TextView
+        android:id="@+id/textViewYear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textview" />
+
+    <TextView
+        android:id="@+id/textViewStars2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textview" />
+</LinearLayout>

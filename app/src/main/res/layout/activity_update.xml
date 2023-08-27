@@ -128,14 +128,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/insert" />
+            android:text="@string/update" />
 
         <Button
-            android:id="@+id/buttonDelete"
+            android:id="@+id/buttonSDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/show_list" />
+            android:text="@string/delete" />
     </LinearLayout>
 
 </LinearLayout>

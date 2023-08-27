@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import kotlinx.coroutines.scheduling.Task;
-
 public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VER = 1;
     // Filename of the database
@@ -24,8 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_YEAR = "year";
     private static final String COLUMN_STARS = "stars";
 
-    public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VER);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COLUMN_YEAR + " INTEGER,"
                 + COLUMN_STARS + " INTEGER)";
                 db.execSQL(createTableSql);
-                Log.i("info" ,"createSOngTableSQL");
+                Log.i("info" ,"created tables");
     }
 
     @Override
@@ -46,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertSong(String title, String singer, int year, String star){
+    public void insertSong(String title, String singer, int year, int star){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -56,31 +54,6 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STARS, star);
         db.insert(TABLE_SONG, null, values);
         db.close();
-    }
-
-    public ArrayList<Songs> getSongsContent() {
-        ArrayList<Songs> song= new ArrayList<Songs>();
-        SQLiteDatabase db= this.getReadableDatabase();
-        String[] columns= {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS, COLUMN_YEAR, COLUMN_STARS};
-        Cursor cursor= db.query(TABLE_SONG, columns, null, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id= cursor.getInt(0);
-                String title= cursor.getString(1);
-                String singer= cursor.getString(2);
-                int year= cursor.getInt(3);
-                int star= cursor.getInt(4);
-
-                Songs newSong= new Songs(id, title, singer, year, star);
-                Songs.add(newSong);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-
-        return song;
     }
 
     public ArrayList<Songs> getSongs() {
@@ -98,11 +71,34 @@ public class DBHelper extends SQLiteOpenHelper {
                 int star= cursor.getInt(4);
 
                 Songs newSong= new Songs(id, title, singer, year, star);
-                Songs.add(newSong);
+                songs.add(newSong);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return songs;
+    }
+
+    public int updateSong(Songs song){
+        SQLiteDatabase db= this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put(COLUMN_TITLE, song.getTitle());
+        values.put(COLUMN_SINGERS, song.getSinger());
+        values.put(COLUMN_YEAR, song.getYear());
+        values.put(COLUMN_STARS, song.getStar());
+        String condition = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(song.getId())};
+        int result = db.update(TABLE_SONG, values, condition, args);
+        db.close();
+        return result;
+    }
+
+    public int deleteSong(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String condition = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(id)};
+        int result = db.delete(TABLE_SONG, condition, args);
+        db.close();
+        return result;
     }
 }
